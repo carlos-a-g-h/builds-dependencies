@@ -69,7 +69,7 @@ jobs:
     - name: Pack it up (Linux)
       if: runner.os == 'Linux'
       run: |
-        ls "${{ inputs.THE_NAME }}
+        ls "${{ inputs.THE_NAME }}"
         tar -cfv "${{ inputs.THE_NAME }}.tar" "${{ inputs.THE_NAME }}"
         ls
 
