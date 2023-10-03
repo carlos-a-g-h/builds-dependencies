@@ -58,12 +58,14 @@ jobs:
         mkdir "${{ inputs.THE_NAME }}"
         pip download -r "requirements.txt" -d "${{ inputs.THE_NAME }}"
 
-    - name: Pack it up (Windows)
-      run: |
-        Compress-Archive -LiteralPath "${{ inputs.THE_NAME }}" -DestinationPath "${{ inputs.THE_NAME }}.zip"
-        dir
-
     - name: Pack it up (Linux)
+      if: runner.os == 'Linux'
       run: |
         tar -cfv "${{ inputs.THE_NAME }}.tar"
         ls
+
+    - name: Pack it up (Windows)
+      if: runner.os == 'Windows'
+      run: |
+        Compress-Archive -LiteralPath "${{ inputs.THE_NAME }}" -DestinationPath "${{ inputs.THE_NAME }}.zip"
+        dir
