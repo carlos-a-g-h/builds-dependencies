@@ -52,7 +52,7 @@ jobs:
       if: runner.os == 'Linux'
       run: |
         wget "${{ inputs.THE_URL }}" -O requirements.txt
-        wget "${{ emv.PIP_DL_SCR }}" -O pip_down.py
+        wget "${{ env.PIP_DL_SCR }}" -O pip_down.py
 
     - name: Download some things first (Windows)
       if: runner.os == 'Windows'
