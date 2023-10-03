@@ -46,11 +46,11 @@ jobs:
         python-version: "${{ inputs.THE_PYTHON}}"
 
     - name: Download requirements.txt file (Linux)
-      if: runner.os == "Linux"
+      if: runner.os == 'Linux'
       run: wget "${{ inputs.THE_URL }}" -O "requirements.txt"
 
     - name: Download requirements.txt file (Windows)
-      if: runner.os == "Windows"
+      if: runner.os == 'Windows'
       run: wget "${{ inputs.THE_URL }}" -OutFile "requirements.txt"
 
     - name: Download packages listed on requirements.txt
