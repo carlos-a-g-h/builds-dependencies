@@ -32,7 +32,7 @@ on:
         default: "3.9.6"
 
 env:
-  PIP_DL_SCR: "https://gist.github.com/carlos-a-g-h/c294236df4d769216a0f1af434666364/raw/97d56f8538597307b47aaf3ad2221698d6601b34/pip_dl_iter.py"
+  PIP_DL_SCR: "https://gist.github.com/carlos-a-g-h/c294236df4d769216a0f1af434666364/raw/3d02d9163f42538620983e01ead2dad276e7b4c6/pip_dl_iter.py"
 
 jobs:
 
