@@ -58,7 +58,7 @@ jobs:
       if: runner.os == 'Windows'
       run: |
         wget "${{ inputs.THE_URL }}" -OutFile requirements.txt
-        wget "${{ emv.PIP_DL_SCR }}" -OutFile pip_down.py
+        wget "${{ env.PIP_DL_SCR }}" -OutFile pip_down.py
 
     - name: Download packages listed on requirements.txt
       run: |
