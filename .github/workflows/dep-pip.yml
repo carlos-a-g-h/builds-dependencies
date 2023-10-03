@@ -56,7 +56,15 @@ jobs:
     - name: Download packages listed on requirements.txt
       run: |
         mkdir "${{ inputs.THE_NAME }}"
-        pip download -r "requirements.txt" --no-binary :all: -d "${{ inputs.THE_NAME }}"
+        # pip download -r "requirements.txt" --no-binary :all: -d "${{ inputs.THE_NAME }}"
+        IDX=1
+        TOT=$(cat requirements.txt|wc -l)
+        while [ $IDX -lt $TOT ]
+        do
+          THING=cat requirements.txt|cat -n "$IDX"p
+          pip download "$THING" --no-binary :all: -d "${{ inputs.THE_NAME }}"
+          IDX=$(expr $IDX + 1)
+        done
 
     - name: Pack it up (Linux)
       if: runner.os == 'Linux'
