@@ -61,11 +61,13 @@ jobs:
     - name: Pack it up (Linux)
       if: runner.os == 'Linux'
       run: |
-        tar -cfv "${{ inputs.THE_NAME }}.tar"
+        ls "${{ inputs.THE_NAME }}
+        tar -cfv "${{ inputs.THE_NAME }}.tar" "${{ inputs.THE_NAME }}"
         ls
 
     - name: Pack it up (Windows)
       if: runner.os == 'Windows'
       run: |
+        dir "${{ inputs.THE_NAME }}
         Compress-Archive -LiteralPath "${{ inputs.THE_NAME }}" -DestinationPath "${{ inputs.THE_NAME }}.zip"
         dir
