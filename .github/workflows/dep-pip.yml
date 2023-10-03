@@ -76,6 +76,6 @@ jobs:
     - name: Pack it up (Windows)
       if: runner.os == 'Windows'
       run: |
-        dir "${{ inputs.THE_NAME }}
+        dir "${{ inputs.THE_NAME }}"
         Compress-Archive -LiteralPath "${{ inputs.THE_NAME }}" -DestinationPath "${{ inputs.THE_NAME }}.zip"
         dir
