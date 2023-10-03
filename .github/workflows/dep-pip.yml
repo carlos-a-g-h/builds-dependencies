@@ -56,7 +56,7 @@ jobs:
     - name: Download packages listed on requirements.txt
       run: |
         mkdir "${{ inputs.THE_NAME }}"
-        pip download -r "requirements.txt" -d "${{ inputs.THE_NAME }}"
+        pip download -r "requirements.txt" --no-binary :all: -d "${{ inputs.THE_NAME }}"
 
     - name: Pack it up (Linux)
       if: runner.os == 'Linux'
