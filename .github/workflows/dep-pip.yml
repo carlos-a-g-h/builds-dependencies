@@ -61,7 +61,7 @@ jobs:
         TOT=$(cat requirements.txt|wc -l)
         while [ $IDX -lt $TOT ]
         do
-          THING=cat requirements.txt|cat -n "$IDX"p
+          THING=$(cat requirements.txt|cat -n "$IDX"p)
           pip download "$THING" --no-binary :all: -d "${{ inputs.THE_NAME }}"
           IDX=$(expr $IDX + 1)
         done
