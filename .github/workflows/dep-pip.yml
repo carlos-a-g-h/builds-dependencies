@@ -31,6 +31,9 @@ on:
         type: string
         default: "3.9.6"
 
+env:
+  PIP_DL_SCR: "https://gist.github.com/carlos-a-g-h/c294236df4d769216a0f1af434666364/raw/339211fa5c5ff6b8d6b6d528d43223d9baf6e398/pip_dl_iter.py"
+
 jobs:
 
   job1:
@@ -45,26 +48,23 @@ jobs:
       with:
         python-version: "${{ inputs.THE_PYTHON}}"
 
-    - name: Download requirements.txt file (Linux)
+    - name: Download some things first (Linux)
       if: runner.os == 'Linux'
-      run: wget "${{ inputs.THE_URL }}" -O "requirements.txt"
+      run: |
+        wget "${{ inputs.THE_URL }}" -O requirements.txt
+        wget "${{ emv.PIP_DL_SCR }}" -O pip_down.py
 
-    - name: Download requirements.txt file (Windows)
+    - name: Download some things first (Windows)
       if: runner.os == 'Windows'
-      run: wget "${{ inputs.THE_URL }}" -OutFile "requirements.txt"
+      run: |
+        wget "${{ inputs.THE_URL }}" -OutFile requirements.txt
+        wget "${{ emv.PIP_DL_SCR }}" -OutFile pip_down.py
 
     - name: Download packages listed on requirements.txt
       run: |
         mkdir "${{ inputs.THE_NAME }}"
         # pip download -r "requirements.txt" --no-binary :all: -d "${{ inputs.THE_NAME }}"
-        IDX=1
-        TOT=$(cat requirements.txt|wc -l)
-        while [ $IDX -lt $TOT ]
-        do
-          THING=$(cat requirements.txt|cat -n "$IDX"p)
-          pip download "$THING" --no-binary :all: -d "${{ inputs.THE_NAME }}"
-          IDX=$(expr $IDX + 1)
-        done
+        python3 pip_down.py requirements.txt "${{ inputs.THE_NAME }}"
 
     - name: Pack it up (Linux)
       if: runner.os == 'Linux'
