@@ -1,0 +1,69 @@
+name: PIP packages
+
+on:
+  workflow_dispatch:
+    inputs:
+      THE_URL:
+        description: Direct link to a requirements.txt file
+        required: true
+        type: string
+
+      THE_NAME:
+        description: Short name for this bundle of packages
+        required: true
+        type: string
+
+      THE_RUNNER:
+        description: The Github runner to use
+        required: true
+        type: choice
+        options:
+        - ubuntu-20.04
+        - ubuntu-22.04
+        - ubuntu-latest
+        - windows-2019
+        - windows-2022
+        - windows-latest
+
+      THE_PYTHON:
+        description: Python version to use (3.10, 3.9.6, etc...)
+        required: true
+        type: string
+        default: "3.9.6"
+
+jobs:
+
+  job1:
+
+    name: The Job
+    runs-on: "${{ inputs.THE_RUNNER }}"
+
+    steps:
+
+    - name: Setup Python
+      uses: actions/setup-python@v3
+      with:
+        python-version: "${{ inputs.THE_PYTHON}}"
+
+    - name: Download requirements.txt file (Linux)
+      if: runner.os == "Linux"
+      run: wget "${{ inputs.THE_URL }}" -O "requirements.txt"
+
+    - name: Download requirements.txt file (Windows)
+      if: runner.os == "Windows"
+      run: wget "${{ inputs.THE_URL }}" -OutFile "requirements.txt"
+
+    - name: Download packages listed on requirements.txt
+      run: |
+        mkdir "${{ inputs.THE_NAME }}"
+        pip download -r "requirements.txt" -d "${{ inputs.THE_NAME }}"
+
+    - name: Pack it up (Windows)
+      run: |
+        Compress-Archive -LiteralPath "${{ inputs.THE_NAME }}" -DestinationPath "${{ inputs.THE_NAME }}.zip"
+        dir
+
+    - name: Pack it up (Linux)
+      run: |
+        tar -cfv "${{ inputs.THE_NAME }}.tar"
+        ls
