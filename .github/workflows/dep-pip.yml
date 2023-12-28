@@ -36,6 +36,32 @@ env:
 
 jobs:
 
+  job0:
+    name: Some data
+    runs-on: ubuntu-latest
+    outputs:
+      the_date: ${{ steps.DateToday.outputs.TODAY }}
+      the_filename: ${{ steps.Filename.outputs.fname }}
+
+    steps:
+      - name: Get date and time
+        id: DateToday
+        run: |
+          RIGHT_NOW=$(date +%Y-%m-%d-%H-%M-%S)
+          echo "Today is: $RIGHT_NOW"
+          echo "TODAY=$RIGHT_NOW >> $GITHUB_OUTPUT"
+
+      - name: Get filename
+        id: Filename
+        run: |
+          if [[ "${{ inputs.THE_RUNNER }}" == "windows-"* ]]
+          then
+            echo "echo "FILENAME=${{ inputs.THE_NAME }}-${{ inputs.THE_RUNNER }}.zip >> $GITHUB_OUTPUT"
+          else
+            echo "echo "FILENAME=${{ inputs.THE_NAME }}-${{ inputs.THE_RUNNER }}.tar >> $GITHUB_OUTPUT"
+          fi
+          cat $GITHUB_OUTPUT|tail -n1
+
   job1:
 
     name: The Job
@@ -70,12 +96,34 @@ jobs:
       if: runner.os == 'Linux'
       run: |
         ls "${{ inputs.THE_NAME }}"
-        tar -cfv "${{ inputs.THE_NAME }}.tar" "${{ inputs.THE_NAME }}"
+        tar -cfv "${{ needs.job0.the_filename }}" "${{ inputs.THE_NAME }}"
         ls
 
     - name: Pack it up (Windows)
       if: runner.os == 'Windows'
       run: |
         dir "${{ inputs.THE_NAME }}"
-        Compress-Archive -LiteralPath "${{ inputs.THE_NAME }}" -DestinationPath "${{ inputs.THE_NAME }}.zip"
+        Compress-Archive -LiteralPath "${{ inputs.THE_NAME }}" -DestinationPath "${{ needs.job0.the_filename }}" -CompressionLevel NoCompression
         dir
+
+    - name: Create release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+      with:
+        tag_name: ${{ needs.job0.the_date }}
+        release_name: ${{ needs.job0.the_date }}
+        draft: false
+        prerelease: false
+
+    - name: Attach the artifact
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: "${{ needs.job0.the_filename }}"
+        asset_name: "${{ needs.job0.the_filename }}"
+        asset_content_type: application/octet-stream
