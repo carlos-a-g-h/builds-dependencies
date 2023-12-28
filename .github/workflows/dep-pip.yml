@@ -60,7 +60,6 @@ jobs:
           else
             echo "echo "FILENAME=${{ inputs.THE_NAME }}-${{ inputs.THE_RUNNER }}.tar >> $GITHUB_OUTPUT"
           fi
-          cat $GITHUB_OUTPUT|tail -n1
 
   job1:
 
