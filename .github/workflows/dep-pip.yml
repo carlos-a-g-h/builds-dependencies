@@ -50,6 +50,7 @@ jobs:
           RIGHT_NOW=$(date +%Y-%m-%d-%H-%M-%S)
           echo "Today is: $RIGHT_NOW"
           echo "TODAY=$RIGHT_NOW >> $GITHUB_OUTPUT"
+          cat "$GITHUB_OUTPUT"|tail -n1
 
       - name: Get filename
         id: Filename
@@ -60,6 +61,7 @@ jobs:
           else
             echo "echo "FILENAME=${{ inputs.THE_NAME }}-${{ inputs.THE_RUNNER }}.tar >> $GITHUB_OUTPUT"
           fi
+          cat "$GITHUB_OUTPUT"|tail -n1
 
   job1:
 
