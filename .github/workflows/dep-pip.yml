@@ -41,7 +41,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       the_date: ${{ steps.DateToday.outputs.TODAY }}
-      the_filename: ${{ steps.Filename.outputs.fname }}
+      the_filename: ${{ steps.Filename.outputs.FILENAME }}
 
     steps:
       - name: Get date and time
@@ -62,6 +62,8 @@ jobs:
           fi
 
   job1:
+
+    needs: job0
 
     name: The Job
     runs-on: "${{ inputs.THE_RUNNER }}"
