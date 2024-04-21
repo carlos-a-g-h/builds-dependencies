@@ -32,7 +32,7 @@ on:
         default: "3.9.6"
 
 env:
-  PIPKIT_SCR: "https://gist.github.com/carlos-a-g-h/c294236df4d769216a0f1af434666364/raw/fdea3ea1dedb4fd745860fceb74f784f47d7d1bd/pipkit.py"
+  PIPKIT_SCR: "https://gist.github.com/carlos-a-g-h/c294236df4d769216a0f1af434666364/raw/9506653948ead4aacbe6c249c982537d18f807a2/pipkit.py"
 
 jobs:
 
@@ -91,9 +91,11 @@ jobs:
 
     - name: Download packages listed on requirements.txt
       run: |
-        mkdir "${{ inputs.THE_NAME }}"
+        # mkdir "${{ inputs.THE_NAME }}"
         # pip download -r "requirements.txt" --no-binary :all: -d "${{ inputs.THE_NAME }}"
-        python3 pipkit.py download requirements.txt "${{ inputs.THE_NAME }}"
+        pip install -r "requirements.txt"
+        python3 pipkit list "${{ inputs.THE_NAME }}/000-requirements.txt"
+        python3 pipkit.py download "${{ inputs.THE_NAME }}/000-requirements.txt" "${{ inputs.THE_NAME }}"
 
     - name: Pack it up (Linux)
       if: runner.os == 'Linux'
