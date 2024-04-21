@@ -32,7 +32,7 @@ on:
         default: "3.9.6"
 
 env:
-  PIP_DL_SCR: "https://gist.github.com/carlos-a-g-h/c294236df4d769216a0f1af434666364/raw/6fbff501e0b0f87145fdd13d0d131d13572cc059/pip_dl_iter.py"
+  PIPKIT_SCR: "https://gist.github.com/carlos-a-g-h/c294236df4d769216a0f1af434666364/raw/fdea3ea1dedb4fd745860fceb74f784f47d7d1bd/pipkit.py"
 
 jobs:
 
@@ -81,19 +81,19 @@ jobs:
       if: runner.os == 'Linux'
       run: |
         wget "${{ inputs.THE_URL }}" -O requirements.txt
-        wget "${{ env.PIP_DL_SCR }}" -O pip_down.py
+        wget "${{ env.PIPKIT_SCR }}" -O pipkit.py
 
     - name: Download some things first (Windows)
       if: runner.os == 'Windows'
       run: |
         Invoke-WebRequest "${{ inputs.THE_URL }}" -OutFile requirements.txt
-        Invoke-WebRequest "${{ env.PIP_DL_SCR }}" -OutFile pip_down.py
+        Invoke-WebRequest "${{ env.PIPKIT_SCR }}" -OutFile pipkit.py
 
     - name: Download packages listed on requirements.txt
       run: |
         mkdir "${{ inputs.THE_NAME }}"
         # pip download -r "requirements.txt" --no-binary :all: -d "${{ inputs.THE_NAME }}"
-        python3 pip_down.py requirements.txt "${{ inputs.THE_NAME }}"
+        python3 pipkit.py download requirements.txt "${{ inputs.THE_NAME }}"
 
     - name: Pack it up (Linux)
       if: runner.os == 'Linux'
