@@ -94,7 +94,7 @@ jobs:
         # mkdir "${{ inputs.THE_NAME }}"
         # pip download -r "requirements.txt" --no-binary :all: -d "${{ inputs.THE_NAME }}"
         pip install -r "requirements.txt"
-        python3 pipkit list "${{ inputs.THE_NAME }}/000-requirements.txt"
+        python3 pipkit.py list "${{ inputs.THE_NAME }}/000-requirements.txt"
         python3 pipkit.py download "${{ inputs.THE_NAME }}/000-requirements.txt" "${{ inputs.THE_NAME }}"
 
     - name: Pack it up (Linux)
