@@ -86,8 +86,8 @@ jobs:
     - name: Download some things first (Windows)
       if: runner.os == 'Windows'
       run: |
-        wget "${{ inputs.THE_URL }}" -OutFile requirements.txt
-        wget "${{ env.PIP_DL_SCR }}" -OutFile pip_down.py
+        Invoke-WebRequest "${{ inputs.THE_URL }}" -OutFile requirements.txt
+        Invoke-WebRequest "${{ env.PIP_DL_SCR }}" -OutFile pip_down.py
 
     - name: Download packages listed on requirements.txt
       run: |
