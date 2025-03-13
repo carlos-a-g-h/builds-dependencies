@@ -89,7 +89,7 @@ jobs:
         Invoke-WebRequest "${{ inputs.THE_URL }}" -OutFile requirements.txt
         Invoke-WebRequest "${{ env.PIPKIT_SCR }}" -OutFile pipkit.py
 
-    - name: Download packages listed on requirements.txt
+    - name: Install, relist, and download
       run: |
         # mkdir "${{ inputs.THE_NAME }}"
         # pip download -r "requirements.txt" --no-binary :all: -d "${{ inputs.THE_NAME }}"
