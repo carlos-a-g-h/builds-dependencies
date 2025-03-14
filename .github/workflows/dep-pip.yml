@@ -57,9 +57,9 @@ jobs:
         run: |
           if [[ "${{ inputs.THE_RUNNER }}" == "windows-"* ]]
           then
-            echo "echo "FILENAME=${{ inputs.THE_NAME }}-${{ inputs.THE_RUNNER }}.zip >> $GITHUB_OUTPUT"
+            echo "echo FILENAME=${{ inputs.THE_NAME }}-${{ inputs.THE_RUNNER }}.zip" >> $GITHUB_OUTPUT
           else
-            echo "echo "FILENAME=${{ inputs.THE_NAME }}-${{ inputs.THE_RUNNER }}.tar >> $GITHUB_OUTPUT"
+            echo "echo FILENAME=${{ inputs.THE_NAME }}-${{ inputs.THE_RUNNER }}.tar" >> $GITHUB_OUTPUT
           fi
           cat "$GITHUB_OUTPUT"|tail -n1
 
