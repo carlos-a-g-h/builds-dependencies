@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       THE_URL:
-        description: Direct link to a requirements.txt file
+        description: Direct link to a requirements.txt file (wish list)
         required: true
         type: string
 
